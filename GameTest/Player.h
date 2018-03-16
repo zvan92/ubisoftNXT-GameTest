@@ -1,26 +1,32 @@
 //---------------------------------------------------------------------------------
-// Box.h
+// Player.h
 //---------------------------------------------------------------------------------
-#ifndef _BOX_H
-#define _BOX_H
+#ifndef _PLAYER_H
+#define _PLAYER_H
 //---------------------------------------------------------------------------------
 #include "App/app.h"
 //---------------------------------------------------------------------------------
-extern int numberOfBoxes;
+#include "Box.h"
 
-class Box
+class Player
 {
-public:
+private:
 	int xPos;
 	int yPos;
-	int length;
-	int width;
+	int length = 20;
+	int width = 20;
+	float red = 1.0f;
+	float green = 0.0f;
+	float blue = 0.0f;
 
-	void Init(int xp, int yp, int l, int w);
+public:
+	void Init(int xp, int yp);
 	void Render();
-	
+	void UpdatePosition(int nxp, int nyp);
+	bool IsCollidingWith(Box* bp);
+
 	// Default constructor
-	Box()
+	Player()
 	{
 	}
 };

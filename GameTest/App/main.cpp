@@ -190,7 +190,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, 	_In_opt_ HINSTANCE hPrevInstanc
 	const int result_1 = std::atexit(CheckMemCallback);
 
 	std::wstring commandLine(lpCmdLine);
-	//gEditorMode = commandLine.find(L"-Editor") != std::string::npos; <- Looks for "-Editor" in command line arguments
+	gEditorMode = commandLine.find(L"-Editor") != std::string::npos; // looks for "-Editor" in command line arguments, sets 'true' if located
 
 	// Setup glut.
 	glutInit(&argc, &argv);
