@@ -9,20 +9,29 @@
 
 bool Player::IsCollidingWith(Box* bp)
 {
-	// x axis collision?
-	if ((xPos >= bp->xPos && xPos <= (bp->xPos + bp->width)) ||
-		(xPos + width >= bp->xPos && (xPos + width) <= (bp->xPos + bp->width)))
+	// These hold the proposed new positions of the player
+	int testX = xPos + xTmp;
+	int testY = yPos + yTmp;
+
+	// X axis collision?
+	if ((testX > bp->xPos && testX < (bp->xPos + bp->width)) ||
+		(testX + width > bp->xPos && (testX + width) < (bp->xPos + bp->width)))
 	{
-		// x axis collision true; checking y axis
-		if ((yPos >= bp->yPos && yPos <= (bp->yPos + bp->length)) ||
-			(yPos + length >= bp->yPos && (yPos + length) <= (bp->yPos + bp->length)))
+		// X axis collision true; checking Y axis
+		if ((testY > bp->yPos && testY < (bp->yPos + bp->length)) ||
+			(testY + length > bp->yPos && (testY + length) < (bp->yPos + bp->length)))
 		{
-			red = 0.0;
-			blue = 1.0;
-			green = 0.0;
 			return true;
 		}
 	}
+	return false;
+}
+
+void Player::SetColour(float r, float g, float b)
+{
+	red = r;
+	green = g;
+	blue = b;
 }
 
 //---------------------------------------------------------------------------------
@@ -31,6 +40,10 @@ bool Player::IsCollidingWith(Box* bp)
 //---------------------------------------------------------------------------------
 void Player::Init(int xp, int yp)
 {
+	// Not used on init; player isn't moving yet
+	xTmp = 0;
+	yTmp = 0;
+	// Actual init position is set with these
 	xPos = xp;
 	yPos = yp;
 }
@@ -38,8 +51,15 @@ void Player::Init(int xp, int yp)
 // Update player position
 void Player::UpdatePosition(int nxp, int nyp)
 {
-	xPos += nxp;
-	yPos += nyp;
+	xTmp = nxp; // X position to be applied to xPos if no collision (buffer)
+	yTmp = nyp; // Y position to be applied to yPos if no collision (buffer)
+}
+
+// Applies changes to player position
+void Player::Update()
+{
+	xPos += xTmp;
+	yPos += yTmp;
 }
 
 //---------------------------------------------------------------------------------

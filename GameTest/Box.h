@@ -16,10 +16,9 @@ public:
 	int length;
 	int width;
 
-	void Init(int xp, int yp, int l, int w);
+	void Init(int xp, int yp, int l = 30, int w = 30);
 	void Render();
 	
-	// Default constructor
 	Box()
 	{
 	}

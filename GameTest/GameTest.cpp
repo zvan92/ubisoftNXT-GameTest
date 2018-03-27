@@ -5,7 +5,6 @@
 #include "GameTest.h"
 //------------------------------------------------------------------------
 void OnKeyEvent();
-void PushPlayer();
 
 //########################################################################
 // GAME START
@@ -20,6 +19,7 @@ void Init()
 	arrayOfBoxes[0].Init(100, 100, 100, 100);
 	arrayOfBoxes[1].Init(300, 300, 100, 100);
 	arrayOfBoxes[2].Init(500, 500, 100, 100);
+	arrayOfBoxes[3].Init(300, 100, 100, 200);
 
 	// Initializing player position
 	player.Init(250, 250);
@@ -31,17 +31,24 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-	// Check for keypresses & move player
+
+	// Check for keypresses & update player position
 	OnKeyEvent();
 
-	// Check for collisions between player & boxes
+	// Check for collisions between player & boxes at the updated player position
 	for (int i = 0; i < numberOfBoxes; i++)
 	{
-		if (player.IsCollidingWith(&arrayOfBoxes[i]))
+		colliding = player.IsCollidingWith(&arrayOfBoxes[i]);
+		if (colliding)
 		{
-			// Stop player from passing through
+			// Disable movement if collision is detected
+			player.UpdatePosition(0, 0);
+			break;
 		}
 	}
+
+	// Apply the updated player position
+	player.Update();
 }
 
 //------------------------------------------------------------------------
@@ -76,23 +83,28 @@ void Shutdown()
 // GAME END
 //########################################################################
 
-// Definition
 void OnKeyEvent()
 {
+	int x = 0;
+	int y = 0;
+
 	if (App::IsKeyPressed('W'))
 	{
-		player.UpdatePosition(0, PLAYER_SPEED);
+		y = PLAYER_SPEED;
 	}
 	if (App::IsKeyPressed('S'))
 	{
-		player.UpdatePosition(0, -PLAYER_SPEED);
+		y = -PLAYER_SPEED;
 	}
 	if (App::IsKeyPressed('A'))
 	{
-		player.UpdatePosition(-PLAYER_SPEED, 0);
+		x = -PLAYER_SPEED;
 	}
 	if (App::IsKeyPressed('D'))
 	{
-		player.UpdatePosition(PLAYER_SPEED, 0);
+		x = PLAYER_SPEED;
 	}
+
+	// Updated position will be sent out for collision detection before being applied
+	player.UpdatePosition(x, y);
 }

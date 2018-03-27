@@ -9,7 +9,7 @@
 
 //---------------------------------------------------------------------------------
 // Use this to initialize boxes.
-// Syntax: boxName.initBox(x start position, y start position, length, width
+// Syntax: boxName.initBox(x start position, y start position, length (default = 30), width (default = 30)
 //---------------------------------------------------------------------------------
 void Box::Init(int xp, int yp, int l, int w)
 {
