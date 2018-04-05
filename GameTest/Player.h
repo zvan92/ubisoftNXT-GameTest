@@ -7,6 +7,7 @@
 #include "App/app.h"
 //---------------------------------------------------------------------------------
 #include "Box.h"
+#include "Goal.h"
 
 class Player
 {
@@ -28,6 +29,8 @@ public:
 	void SetColour(float r, float g, float b);
 	void Update();
 	bool IsCollidingWith(Box* bp);
+	bool IsCollidingWith(Goal* bp);
+	bool levelFinished = false;
 
 	Player()
 	{

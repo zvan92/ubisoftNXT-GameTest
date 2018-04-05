@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------------
 #include "Player.h"
 
+// Player-Box collision detection
 bool Player::IsCollidingWith(Box* bp)
 {
 	// These hold the proposed new positions of the player
@@ -27,16 +28,34 @@ bool Player::IsCollidingWith(Box* bp)
 	return false;
 }
 
-void Player::SetColour(float r, float g, float b)
+// Player-Box collision detection
+bool Player::IsCollidingWith(Goal* g)
+{
+	int testX = xPos + xTmp;
+	int testY = yPos + yTmp;
+
+	if ((testX > g->xPos && testX < (g->xPos + g->width)) ||
+		(testX + width > g->xPos && (testX + width) < (g->xPos + g->width)))
+	{
+		if ((testY > g->yPos && testY < (g->yPos + g->length)) ||
+			(testY + length > g->yPos && (testY + length) < (g->yPos + g->length)))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+/* void Player::SetColour(float r, float g, float b)
 {
 	red = r;
 	green = g;
 	blue = b;
-}
+} */
 
 //---------------------------------------------------------------------------------
 // Use this to initialize the player object.
-// Syntax: Player(x start position, y start position)
+// Syntax: playerName.Init(x start position, y start position);
 //---------------------------------------------------------------------------------
 void Player::Init(int xp, int yp)
 {
@@ -64,7 +83,7 @@ void Player::Update()
 
 //---------------------------------------------------------------------------------
 // Use this to render the player object.
-// Syntax: Player(&playername), i.e. Player(&playerObject)
+// Syntax: playerName.Render();
 //---------------------------------------------------------------------------------
 void Player::Render()
 {

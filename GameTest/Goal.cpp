@@ -1,40 +1,37 @@
 //---------------------------------------------------------------------------------
-// Box.cpp
+// Goal.cpp
 //---------------------------------------------------------------------------------
 #include "stdafx.h"
 //---------------------------------------------------------------------------------
 #include "App/app.h"
 //---------------------------------------------------------------------------------
-#include "Box.h"
+#include "Goal.h"
 
 //---------------------------------------------------------------------------------
-// Use this to initialize boxes.
-// Syntax: boxName.Init(x start position, y start position, length (default = 30), width (default = 30)
+// Use this to initialize the goal.
+// Syntax: goalName.Init(x start position, y start position);
 //---------------------------------------------------------------------------------
-void Box::Init(int xp, int yp, int l, int w)
+void Goal::Init(int xp, int yp)
 {
 	xPos = xp;
 	yPos = yp;
-	length = l;
-	width = w;
-	numberOfBoxes++;
 }
 
 //---------------------------------------------------------------------------------
 // Use this to render existing boxes.
-// Syntax: boxName.Render();
+// Syntax: goalName.Render();
 //---------------------------------------------------------------------------------
-void Box::Render()
+void Goal::Render()
 {
 	// top line
-	App::DrawLine(xPos, yPos, (xPos + width), yPos);
-	
+	App::DrawLine(xPos, yPos, (xPos + width), yPos, red, green, blue);
+
 	// bottom line
-	App::DrawLine(xPos, (yPos + length), (xPos + width), (yPos + length));
+	App::DrawLine(xPos, (yPos + length), (xPos + width), (yPos + length), red, green, blue);
 
 	// left line
-	App::DrawLine(xPos, yPos, xPos, (yPos + length));
+	App::DrawLine(xPos, yPos, xPos, (yPos + length), red, green, blue);
 
 	// right line
-	App::DrawLine((xPos + width), (yPos + length), (xPos + width), yPos);
+	App::DrawLine((xPos + width), (yPos + length), (xPos + width), yPos, red, green, blue);
 }

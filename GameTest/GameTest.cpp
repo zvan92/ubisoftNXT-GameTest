@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GameTest.h"
 //------------------------------------------------------------------------
+// Defined below game loop
 void OnKeyEvent();
 
 //########################################################################
@@ -23,6 +24,9 @@ void Init()
 
 	// Initializing player position
 	player.Init(250, 250);
+
+	// Initializing goal position
+	goal.Init(700, 700);
 }
 
 //------------------------------------------------------------------------
@@ -31,9 +35,14 @@ void Init()
 //------------------------------------------------------------------------
 void Update(float deltaTime)
 {
-
 	// Check for keypresses & update player position
 	OnKeyEvent();
+
+	// Check for player entering goal zone
+	if (player.IsCollidingWith(&goal))
+	{
+		player.levelFinished = true;
+	}
 
 	// Check for collisions between player & boxes at the updated player position
 	for (int i = 0; i < numberOfBoxes; i++)
@@ -56,18 +65,30 @@ void Update(float deltaTime)
 // See App.h 
 //------------------------------------------------------------------------
 void Render()
-{	
-	// Print welcome message on bottom-right of window
-	App::Print(748, 10, welcomeMessage, 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
-
-	// Render boxes
-	for (int i = 0; i < numberOfBoxes + 1; i++)
+{
+	if(player.levelFinished == false)
 	{
-		arrayOfBoxes[i].Render();
+		// Print welcome message on bottom-right of window
+		App::Print(25, APP_INIT_WINDOW_HEIGHT - 40, controlsMessage, 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+
+		// Render boxes
+		for (int i = 0; i < numberOfBoxes + 1; i++)
+		{
+			arrayOfBoxes[i].Render();
+		}
+
+		// Render player object
+		player.Render();
+
+		// Render goal object
+		goal.Render();
 	}
 
-	// Render player object
-	player.Render();
+	if (player.levelFinished == true)
+	{
+		// Print finish message in centre of window
+		App::Print(25, APP_INIT_WINDOW_HEIGHT - 40, finishMessage, 1.0f, 1.0f, 1.0f, GLUT_BITMAP_TIMES_ROMAN_24);
+	}
 }
 
 //------------------------------------------------------------------------
@@ -83,6 +104,7 @@ void Shutdown()
 // GAME END
 //########################################################################
 
+// Definition
 void OnKeyEvent()
 {
 	int x = 0;
